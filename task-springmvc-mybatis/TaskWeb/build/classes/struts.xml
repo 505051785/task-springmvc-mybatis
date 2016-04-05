@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "http://struts.apache.org/dtds/struts-2.3.dtd">
+	
+<struts>
+
+ <constant name="struts.enable.DynamicMethodInvocation" value="false" />
+    <constant name="struts.devMode" value="true" /> 
+    <package name="default"  extends="struts-default" namespace="">
+        <default-action-ref name="index" />
+      
+        <action name="login" class="taskweb.action.LoginAction">
+            <result type="redirect">tasks.action</result>
+            <result name="input">/login.jsp</result>
+        </action>
+        
+        <action name="tasks" class="taskweb.action.TasksAction">
+            <result>/tasks.jsp</result>
+        </action>
+        
+        <action name="detailtask" class="taskweb.action.DetailTaskAction">
+            <result>/task.jsp</result>
+            <result name="addtask" type="redirect">/AddTask.jsp</result>
+        </action>
+    </package>
+</struts>
