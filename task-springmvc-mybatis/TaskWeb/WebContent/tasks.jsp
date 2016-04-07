@@ -3,7 +3,9 @@
 <%@page import="model.TasksVO"%>
 <%@page import="model.TaskVO"%>
 <%@page import="java.util.List"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -101,78 +103,84 @@ table {
 }
 
 .ui-page {
-  height: 60px;
-  margin: 10px 0 20px;
-  color: #999;
-  font-size: 14px;
-  font-weight: 700;
-  font-family: \5B8B\4F53,Helvetica,sans-serif;
-  text-align: center;
+	height: 60px;
+	margin: 10px 0 20px;
+	color: #999;
+	font-size: 14px;
+	font-weight: 700;
+	font-family: \5B8B\4F53, Helvetica, sans-serif;
+	text-align: center;
 }
 
 .ui-page a, .ui-page b {
-  float: left;
+	float: left;
 }
+
 .ui-page b {
-  font-weight: 400;
+	font-weight: 400;
 }
+
 .ui-page-num {
-  padding-top: 19px;
-  background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEYAAAAUCAMAAAAHtrtKAAACTFBM…JVAx1fngUOJHJuUuAY4ZkjOMheVNMBmpGMzYOaDBsmH9VUGlSdguSxQAAAABJRU5ErkJggg==") no-repeat right 0;
+	padding-top: 19px;
+	background:
+		url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEYAAAAUCAMAAAAHtrtKAAACTFBM…JVAx1fngUOJHJuUuAY4ZkjOMheVNMBmpGMzYOaDBsmH9VUGlSdguSxQAAAABJRU5ErkJggg==")
+		no-repeat right 0;
 }
 
 .ui-page-wrap {
-  display: inline-block;
-  zoom: 1;
+	display: inline-block;
+	zoom: 1;
 }
-
 
 DIV.quotes {
-  PADDING-RIGHT: 3px;
-  PADDING-LEFT: 3px;
-  PADDING-BOTTOM: 3px;
-  MARGIN: 3px;
-  PADDING-TOP: 3px;
-  TEXT-ALIGN: center;
+	PADDING-RIGHT: 3px;
+	PADDING-LEFT: 3px;
+	PADDING-BOTTOM: 3px;
+	MARGIN: 3px;
+	PADDING-TOP: 3px;
+	TEXT-ALIGN: center;
 }
+
 DIV.quotes SPAN.disabled {
-  BORDER-RIGHT: #f3f3f3 1px solid;
-  PADDING-RIGHT: 5px;
-  BORDER-TOP: #f3f3f3 1px solid;
-  PADDING-LEFT: 5px;
-  PADDING-BOTTOM: 2px;
-  BORDER-LEFT: #f3f3f3 1px solid;
-  COLOR: #ccc;
-  MARGIN-RIGHT: 2px;
-  PADDING-TOP: 2px;
-  BORDER-BOTTOM: #f3f3f3 1px solid;
+	BORDER-RIGHT: #f3f3f3 1px solid;
+	PADDING-RIGHT: 5px;
+	BORDER-TOP: #f3f3f3 1px solid;
+	PADDING-LEFT: 5px;
+	PADDING-BOTTOM: 2px;
+	BORDER-LEFT: #f3f3f3 1px solid;
+	COLOR: #ccc;
+	MARGIN-RIGHT: 2px;
+	PADDING-TOP: 2px;
+	BORDER-BOTTOM: #f3f3f3 1px solid;
 }
+
 DIV.quotes SPAN.current {
-  BORDER-RIGHT: #e0e0e0 1px solid;
-  PADDING-RIGHT: 5px;
-  BORDER-TOP: #e0e0e0 1px solid;
-  PADDING-LEFT: 5px;
-  FONT-WEIGHT: bold;
-  PADDING-BOTTOM: 2px;
-  BORDER-LEFT: #e0e0e0 1px solid;
-  COLOR: #aaa;
-  MARGIN-RIGHT: 2px;
-  PADDING-TOP: 2px;
-  BORDER-BOTTOM: #e0e0e0 1px solid;
-  BACKGROUND-COLOR: #f0f0f0;
+	BORDER-RIGHT: #e0e0e0 1px solid;
+	PADDING-RIGHT: 5px;
+	BORDER-TOP: #e0e0e0 1px solid;
+	PADDING-LEFT: 5px;
+	FONT-WEIGHT: bold;
+	PADDING-BOTTOM: 2px;
+	BORDER-LEFT: #e0e0e0 1px solid;
+	COLOR: #aaa;
+	MARGIN-RIGHT: 2px;
+	PADDING-TOP: 2px;
+	BORDER-BOTTOM: #e0e0e0 1px solid;
+	BACKGROUND-COLOR: #f0f0f0;
 }
+
 DIV.quotes A {
-  BORDER-RIGHT: #ddd 1px solid;
-  PADDING-RIGHT: 5px;
-  BORDER-TOP: #ddd 1px solid;
-  PADDING-LEFT: 5px;
-  PADDING-BOTTOM: 2px;
-  BORDER-LEFT: #ddd 1px solid;
-  COLOR: #aaa;
-  MARGIN-RIGHT: 2px;
-  PADDING-TOP: 2px;
-  BORDER-BOTTOM: #ddd 1px solid;
-  TEXT-DECORATION: none;
+	BORDER-RIGHT: #ddd 1px solid;
+	PADDING-RIGHT: 5px;
+	BORDER-TOP: #ddd 1px solid;
+	PADDING-LEFT: 5px;
+	PADDING-BOTTOM: 2px;
+	BORDER-LEFT: #ddd 1px solid;
+	COLOR: #aaa;
+	MARGIN-RIGHT: 2px;
+	PADDING-TOP: 2px;
+	BORDER-BOTTOM: #ddd 1px solid;
+	TEXT-DECORATION: none;
 }
 </style>
 </head>
@@ -194,69 +202,68 @@ DIV.quotes A {
 				<th width="7%">操作</th>
 			</tr>
 		</thead>
-		
-		
-	 <s:iterator value="#request.tasksVO.taskList" status="statu" id="item">  
-	 <tr>
-     <td><s:property value="#item.task.id" /></td>
-     <td><s:property value="#item.task.title" /></td>
-        <s:if test="%{#item.task.description.length()>50}">  
-            <td title='<s:property value="#item.task.description" />'><s:property value="#item.task.description.substring(0, 50)" /></td>
-        </s:if>
-        <s:else>  
-            <td><s:property value="#item.task.description" /></td>
-        </s:else>  
-			<td><s:property value="#item.user.userName" /></td>
-			<td><s:property value="#item.task.starttime" /></td>
-			<td><s:property value="#item.task.executendtime" /></td>
-			<td><s:property value="#item.task.type" /></td>
-			<td><s:property value="#item.task.executestatus" /></td>
-		    <td><s:url action="detailtask" namespace="" var="url">  
-            <s:param name="id"><s:property value="#item.task.id" /></s:param>  
-            </s:url>
-          <s:a href="%{url}">查看</s:a>  
-        </td>
-     </tr>
-    </s:iterator> 
+
+		<c:forEach items="${tasksVO.taskList}" var="taskvo">
+			<tr>
+				<td>${taskvo.task.id}</td>
+				<td>${taskvo.task.title}</td>
+				<c:choose>
+					<c:when test="${taskvo.task.description.length()>50}">
+						<td title='${taskvo.task.description}'>${taskvo.task.description.substring(0,50)}</td>
+					</c:when>
+					<c:otherwise>
+						<td>${taskvo.task.description}</td>
+					</c:otherwise>
+				</c:choose>
+				<td>${taskvo.user.userName}</td>
+				<td>${taskvo.task.starttime}</td>
+				<td>${taskvo.task.executendtime}</td>
+				<td>${taskvo.task.type}</td>
+				<td>${taskvo.task.executestatus}</td>
+				<td><a href="detailtask?id=${taskvo.task.id}">查看</a></td>
+			</tr>
+		</c:forEach>
+
+
 
 	</table>
-	
-<div class="quotes">  <%=tasksVO.getPageFooter() %> <input id="topage"  type="text" />页 <a onclick="page_jump()" href="javascript:;">确定</a></div>
-	<br>
-	<br>
-<script>
-function page_jump(){
-	if($("#topage").val()!=""){
-		window.location.href=window.location.pathname+"?"+"p="+$("#topage").val();
-	}
-}
 
-function getCookieValue(cookieName)  
-{  
-    var cookieValue = document.cookie;  
-    var cookieStartAt = cookieValue.indexOf(""+cookieName+"=");  
-    if(cookieStartAt==-1)  
-    {  
-        cookieStartAt = cookieValue.indexOf(cookieName+"=");  
-    }  
-    if(cookieStartAt==-1)  
-    {  
-        cookieValue = null;  
-    }  
-    else  
-    {  
-        cookieStartAt = cookieValue.indexOf("=",cookieStartAt)+1;  
-        cookieEndAt = cookieValue.indexOf(";",cookieStartAt);  
-        if(cookieEndAt==-1)  
-        {  
-            cookieEndAt = cookieValue.length;  
-        }  
-        cookieValue = unescape(cookieValue.substring(cookieStartAt,cookieEndAt));//解码latin-1  
-    }  
-    return cookieValue;  
-}  
-//alert(getCookieValue('userCode'));
-//alert(getCookieValue('password'));
-</script>
+	<div class="quotes">
+		<%=tasksVO.getPageFooter()%>
+		<input id="topage" type="text" />页 <a onclick="page_jump()"
+			href="javascript:;">确定</a>
+	</div>
+	<br>
+	<br>
+	<script>
+		function page_jump() {
+			if ($("#topage").val() != "") {
+				window.location.href = window.location.pathname + "?" + "p="
+						+ $("#topage").val();
+			}
+		}
+
+		function getCookieValue(cookieName) {
+			var cookieValue = document.cookie;
+			var cookieStartAt = cookieValue.indexOf("" + cookieName + "=");
+			if (cookieStartAt == -1) {
+				cookieStartAt = cookieValue.indexOf(cookieName + "=");
+			}
+			if (cookieStartAt == -1) {
+				cookieValue = null;
+			} else {
+				cookieStartAt = cookieValue.indexOf("=", cookieStartAt) + 1;
+				cookieEndAt = cookieValue.indexOf(";", cookieStartAt);
+				if (cookieEndAt == -1) {
+					cookieEndAt = cookieValue.length;
+				}
+				cookieValue = unescape(cookieValue.substring(cookieStartAt,
+						cookieEndAt));//解码latin-1  
+			}
+			return cookieValue;
+		}
+		//alert(getCookieValue('userCode'));
+		//alert(getCookieValue('password'));
+	</script>
 </body>
 </html>
