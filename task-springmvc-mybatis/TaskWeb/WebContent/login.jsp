@@ -6,12 +6,41 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<link href="script/css/login/style.css" rel="stylesheet" type="text/css" media="all" />
 </head>
 <body>
-	<form action="login" method="post" >
-		用户名：<input type="text" name="usercode" /> 密码：<input type="password"
-			name="password" /> <input type="submit" name="ss" />
-	</form>
-		<div>${loginVO.error}</div>
+
+		<!-- contact-form -->	
+<div class="message warning">
+<div class="contact-form">
+	<div class="logo">
+		<h1>Sign In</h1>
+	</div>	
+<!--- form --->
+<form class="form" action="login" method="post" name="contact_form">
+	<ul>
+		<li>
+			 <label><img src="images/login/contact.png" alt=""></label>
+			 <input type="text"  name="usercode"  required />		            
+		 </li>
+		 <li>
+			 <label><img src="images/login/lock.png" alt=""></label>
+			 <input type="Password" name="password" placeholder="Password" required />		         
+		 </li>
+		 <li class="style">
+		     <input type="Submit" value="Submit">
+		 </li>
+	</ul>	
+	<div class="clear"></div>	   	
+</form>
+</div>
+<div class="alert-close"></div>
+</div>
+<div class="clear"></div>
+<!--- footer --->
+<div class="footer">
+	<p>Create by <a href="#">guananfang</a></p>
+</div>
+		
 </body>
 </html>

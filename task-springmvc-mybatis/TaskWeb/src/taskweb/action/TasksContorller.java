@@ -22,15 +22,15 @@ import controller.cenum.TaskTypeEnum;
 
 @Controller
 public class TasksContorller {
-	
-	private TasksVO tasksVO ;
 
-	@RequestMapping(value="/tasks", method=RequestMethod.GET)
-	public String execute(Map<String,Object> model) throws Exception {
-		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest(); 
-		TaskService taskService = new TaskService();
+	private TasksVO tasksVO;
+
+	@RequestMapping(value = "/tasks", method = RequestMethod.GET)
+	public String execute(Map<String, Object> model) throws Exception {
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
+				.getRequestAttributes()).getRequest();
 		String strPageNo = request.getParameter("p");
-		int perPageNum = 5;
+		int perPageNum = 2;
 		int intPageNo = 1;
 		if (!StringUtils.isBlank(strPageNo)) {
 			intPageNo = Integer.parseInt(strPageNo);
@@ -39,13 +39,15 @@ public class TasksContorller {
 		List<TaskVO> taskList = null;
 		int totalPages = 0;
 		try {
-			taskList = taskService.GetTasks(perPageNum, intPageNo);
+			taskList = TaskService.instance.GetTasks(perPageNum, intPageNo);
 			for (TaskVO taskVO : taskList) {
 				Task task = taskVO.getTask();
-				task.setExecutestatus(ExcuteStatusEnum.resStatus(Integer.parseInt(task.getExecutestatus())));
-				task.setType(TaskTypeEnum.resStatus(Integer.parseInt(task.getType())));
+				task.setExecutestatus(ExcuteStatusEnum.resStatus(Integer
+						.parseInt(task.getExecutestatus())));
+				task.setType(TaskTypeEnum.resStatus(Integer.parseInt(task
+						.getType())));
 			}
-			totalPages = taskService.GetTasksCount();
+			totalPages = TaskService.instance.GetTasksCount();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -56,25 +58,29 @@ public class TasksContorller {
 		model.put("tasksVO", tasksVO);
 		return "tasks";
 	}
-	
+
 	public String calFooter(int totalPages, int perPageNum, int intPageNo) {
 		StringBuilder sb = new StringBuilder();
-
+		int showpages = 3;// 默认3个页签
+		int pageNum = totalPages % perPageNum == 0 ? totalPages / perPageNum
+				: (totalPages / perPageNum + 1);
 		if (intPageNo > 1) {
 			sb.append("<span>");
 			sb.append("<a href=tasks?p=");
-			sb.append(intPageNo-1);
+			sb.append(intPageNo - 1);
 			sb.append(">");
 			sb.append("上一页");
 			sb.append("</a>");
 			sb.append("</span>");
 			sb.append("...");
-		}else{
+		} else {
 			sb.append("<span class=\"disabled\">上一页</span>");
 		}
-		int pageNum = totalPages % perPageNum == 0 ? totalPages / perPageNum : (totalPages / perPageNum + 1);
-		if (intPageNo > (pageNum - 3)) {//默认3个页签
-			for (int i = intPageNo; i <= pageNum; i++) {
+		if (intPageNo > (pageNum - showpages)) {
+			int foreachstart = intPageNo;
+			if ((pageNum - intPageNo) < showpages - 1)
+				foreachstart = (pageNum - showpages + 1);
+			for (int i = foreachstart; i <= pageNum; i++) {
 				sb.append("<span>");
 				sb.append("<a href=tasks?p=");
 				sb.append(i);
@@ -84,7 +90,7 @@ public class TasksContorller {
 				sb.append("</span>");
 			}
 		} else {
-			for (int i = intPageNo; i < intPageNo + 3; i++) {
+			for (int i = intPageNo; i < intPageNo + showpages; i++) {
 				sb.append("<span>");
 				sb.append("<a href=tasks?p=");
 				sb.append(i);
@@ -95,14 +101,18 @@ public class TasksContorller {
 			}
 			sb.append("...");
 		}
-		sb.append("<span>");
-		sb.append("<a href=tasks?p=");
-		sb.append(intPageNo+1);
-		sb.append(">");
-		sb.append("下一页");
-		sb.append("</a>");
-		sb.append("</span>");
-		
+		if (intPageNo < pageNum) {
+			sb.append("<span>");
+			sb.append("<a href=tasks?p=");
+			sb.append(intPageNo + 1);
+			sb.append(">");
+			sb.append("下一页");
+			sb.append("</a>");
+			sb.append("</span>");
+		} else {
+			sb.append("<span class=\"disabled\">下一页</span>");
+		}
+
 		sb.append("<span>");
 		sb.append("共");
 		sb.append(pageNum);

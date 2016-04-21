@@ -27,12 +27,8 @@ public class DetailTaskController {
 	@RequestMapping(value="/detailtask", method=RequestMethod.GET)
 	public String execute() throws Exception {
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest(); 
-		TaskService taskService = new TaskService();
 		String taskid = request.getParameter("id");
-		if (StringUtils.isBlank(taskid)) {
-			return "addtask";
-		}
-		AddTaskVO addTaskVO = taskService.DetailTask(taskid);
+		AddTaskVO addTaskVO = TaskService.instance.DetailTask(taskid);
 		List<TaskType> typelist = new ArrayList<TaskType>();
 		for (TaskTypeEnum item : TaskTypeEnum.values()) {
 			TaskType tasktype = new TaskType();
@@ -42,6 +38,9 @@ public class DetailTaskController {
 		}
 		addTaskVO.setTypelist(typelist);
 		request.setAttribute("addTaskVO", addTaskVO);
+		if (StringUtils.isBlank(taskid)) {
+			return "addtask";
+		}
 		return "task";
 	}
 

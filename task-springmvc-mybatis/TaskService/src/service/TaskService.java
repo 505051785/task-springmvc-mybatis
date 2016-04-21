@@ -25,11 +25,11 @@ import model.Task;
 import model.TaskVO;
 import model.User;
 
-public class TaskService {
+public enum TaskService {
+	
+	instance;
 
 	public void AddTaks(Task task) {
-		// String strSql =
-		// "insert into task (title,description,sponsor,executor,starttime,endtime) values (?,?,?,?,?);";
 		StringBuilder sbSql = new StringBuilder();
 		sbSql.append("insert into task (");
 		List<Object> para = new ArrayList<Object>();

@@ -17,4 +17,47 @@
      <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/" p:suffix=".jsp" />  
      <mvc:resources mapping="/images/**" location="/images/" /> 
      <mvc:resources mapping="/script/**" location="/script/" /> 
+     
+     <mvc:interceptors>
+    <mvc:interceptor>
+        <mvc:mapping path="/*" />
+        <bean class="taskweb.interceptor.loginInterceptor">
+            <property name="excludedUrls">
+                <list>
+                    <value>/TaskWeb/login</value>
+                </list>
+            </property>
+        </bean>
+    </mvc:interceptor>
+</mvc:interceptors>
+
+<bean id="handlerExceptionResolver"
+    class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+    <property name="exceptionMappings">
+        <props>
+            <prop key="taskweb.common.exception.AuthorizationException">login</prop>
+        </props>
+    </property>
+</bean>
+
+<bean id="stringConverter" class="org.springframework.http.converter.StringHttpMessageConverter">
+        <property name="supportedMediaTypes">
+            <list>
+                <value>text/plain;charset=UTF-8</value>
+            </list>
+        </property>
+    </bean>
+ 
+    <!-- 输出对象转JSON支持 -->
+           <bean id="jsonConverter"  
+        class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"></bean>  
+    <bean
+        class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <ref bean="stringConverter"/>
+                <ref bean="jsonConverter" />
+            </list>
+        </property>
+    </bean>
 </beans>  

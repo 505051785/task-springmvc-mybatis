@@ -1,44 +1,59 @@
-package taskweb.action;
+package taskweb.interceptor;
+
+import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
-import service.TaskService;
-import model.LoginVO;
 import model.User;
 
-@Controller
-public class LoginController {
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.servlet.HandlerInterceptor;
 
-	private LoginVO loginVO;
+import service.TaskService;
+import taskweb.common.exception.AuthorizationException;
 
-	public LoginVO getLoginVO() {
-		return loginVO;
+public class loginInterceptor implements HandlerInterceptor {
+
+	private List<String> excludedUrls;
+
+	public void setExcludedUrls(List<String> excludedUrls) {
+		this.excludedUrls = excludedUrls;
 	}
 
-	public void setLoginVO(LoginVO loginVO) {
-		this.loginVO = loginVO;
+	@Override
+	public void afterCompletion(HttpServletRequest arg0,
+			HttpServletResponse arg1, Object arg2, Exception arg3)
+			throws Exception {
+		// TODO Auto-generated method stub
+
 	}
 
-	@RequestMapping("/login")
-	public String execute() throws Exception {
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
-				.getRequestAttributes()).getRequest();
+	@Override
+	public void postHandle(HttpServletRequest arg0, HttpServletResponse arg1,
+			Object arg2, org.springframework.web.servlet.ModelAndView arg3)
+			throws Exception {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public boolean preHandle(HttpServletRequest request,
+			HttpServletResponse response, Object arg2) throws Exception {
+		String requestUri = request.getRequestURI();
+		for (String url : excludedUrls) {
+			if (requestUri.endsWith(url)) {
+				return true;
+			}
+		}
 		HttpSession session = request.getSession();
-		HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder
-				.getRequestAttributes()).getResponse();
 		User loginuser = (User) session.getAttribute("task_user");
 
 		if (loginuser != null) {
-			return "redirect:/tasks";
+			request.setAttribute("task_user", loginuser);
+			return true;
 		}
 		String usercode = "";
 		String password = "";
@@ -47,17 +62,14 @@ public class LoginController {
 		if (curUserCodeCookie != null) {
 			usercode = curUserCodeCookie.getValue();
 			password = curPasswordCookie.getValue();
-		} else {
-			usercode = request.getParameter("usercode");
-			password = request.getParameter("password");
 		}
 		if (StringUtils.isBlank(usercode) || StringUtils.isBlank(password)) {
-			return "login";
+			throw new AuthorizationException();
 		}
 		User user = TaskService.instance.Login(usercode);
 		if (user.getUserCode() != null && user.getPassword().equals(password)) {
 			session.setAttribute("task_user", user);
-			if (curUserCodeCookie == null) {
+			if (curPasswordCookie == null) {
 				Cookie userCodecookie = new Cookie("task_userCode",
 						user.getUserCode());
 				userCodecookie.setPath("/");
@@ -68,14 +80,10 @@ public class LoginController {
 				response.addCookie(passwordcookie);
 			}
 			request.setAttribute("task_user", user);
-			return "redirect:/tasks";
-		} else {
-			loginVO = new LoginVO();
-			loginVO.setError("用户名或密码错误！");
-			request.setAttribute("loginVO", loginVO);
-			request.setAttribute("task_user", user);
-			return "login";
+			return true;
 		}
+		response.sendRedirect("/login.jsp");
+		return false;
 	}
 
 	private Cookie getCookie(HttpServletRequest request, String cookieName) {
@@ -94,4 +102,5 @@ public class LoginController {
 		}
 		return result;
 	}
+
 }

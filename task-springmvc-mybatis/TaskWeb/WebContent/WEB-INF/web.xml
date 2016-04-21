@@ -15,16 +15,6 @@
 	</servlet-mapping>
 	
 	<servlet>
-		<display-name>AddTaskServlet</display-name>
-		<servlet-name>AddTaskServlet</servlet-name>
-		<servlet-class>taskweb.servlet.AddTaskServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>AddTaskServlet</servlet-name>
-		<url-pattern>/addtask</url-pattern>
-	</servlet-mapping>	
-	
-	<servlet>
 		<display-name>EdiTTasksServlet</display-name>
 		<servlet-name>EdiTTasksServlet</servlet-name>
 		<servlet-class>taskweb.servlet.EditTasksServlet</servlet-class>
@@ -51,15 +41,5 @@
 	<servlet-mapping>
 		<servlet-name>ModifyTaskServlet</servlet-name>
 		<url-pattern>/modifytask</url-pattern>
-	</servlet-mapping>
-
-		<servlet>
-		<display-name>LogoutServlet</display-name>
-		<servlet-name>LogoutServlet</servlet-name>
-		<servlet-class>taskweb.servlet.LogoutServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>LogoutServlet</servlet-name>
-		<url-pattern>/logout</url-pattern>
 	</servlet-mapping>
 </web-app>

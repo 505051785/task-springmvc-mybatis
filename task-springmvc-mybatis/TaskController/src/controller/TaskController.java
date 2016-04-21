@@ -60,8 +60,7 @@ public class TaskController {
 			e.printStackTrace();
 		}
 		task.setExecutendtime(executendDate);
-		TaskService taskService = new TaskService();
-		taskService.AddTaks(task);
+		TaskService.instance.AddTaks(task);
 	}
 
 	/**
@@ -72,8 +71,7 @@ public class TaskController {
 	 */
 	public void ModifyTask(HttpServletRequest request, HttpServletResponse response) {
 		String taskid = request.getParameter("id");
-		TaskService taskService = new TaskService();
-		AddTaskVO addTaskVO = taskService.DetailTask(taskid);
+		AddTaskVO addTaskVO = TaskService.instance.DetailTask(taskid);
 		String title = request.getParameter("title").toString();
 		String description = request.getParameter("description").toString();
 		String executor = request.getParameter("executor").toString();
@@ -98,7 +96,7 @@ public class TaskController {
 			e.printStackTrace();
 		}
 		task.setExecutendtime(executendDate);
-		taskService.ModifyTask(task);
+		TaskService.instance.ModifyTask(task);
 	}
 
 	/**
@@ -108,9 +106,8 @@ public class TaskController {
 	 * @param response
 	 */
 	public void DetailTask(HttpServletRequest request, HttpServletResponse response) {
-		TaskService taskService = new TaskService();
 		String taskid = request.getParameter("id");
-		AddTaskVO addTaskVO = taskService.DetailTask(taskid);
+		AddTaskVO addTaskVO = TaskService.instance.DetailTask(taskid);
 		List<TaskType> typelist = new ArrayList<TaskType>();
 		for (TaskTypeEnum item : TaskTypeEnum.values()) {
 			TaskType tasktype = new TaskType();
@@ -129,9 +126,8 @@ public class TaskController {
 	 * @param response
 	 */
 	public void EditTask(HttpServletRequest request, HttpServletResponse response) {
-		TaskService taskService = new TaskService();
 		String taskid = request.getParameter("id");
-		EditTaskVO editTaskVO = taskService.EditTask(taskid);
+		EditTaskVO editTaskVO = TaskService.instance.EditTask(taskid);
 		List<TaskType> typelist = new ArrayList<TaskType>();
 		TaskType defaulttype = new TaskType();
 		defaulttype.setCode(editTaskVO.getTask().getType());
@@ -146,7 +142,7 @@ public class TaskController {
 			typelist.add(tasktype);
 		}
 		editTaskVO.setTypelist(typelist);
-		List<User> users = taskService.getAllUser();
+		List<User> users = TaskService.instance.getAllUser();
 		int changeIndex = 0;
 		User changeUser = new User();
 		for (User item : users) {
@@ -184,7 +180,6 @@ public class TaskController {
 	 * @param response
 	 */
 	public void ShowTasks(HttpServletRequest request, HttpServletResponse response) {
-		TaskService taskService = new TaskService();
 		String strPageNo = request.getParameter("p");
 		int perPageNum = 5;
 		int intPageNo = 1;
@@ -195,13 +190,13 @@ public class TaskController {
 		List<TaskVO> taskList = null;
 		int totalPages = 0;
 		try {
-			taskList = taskService.GetTasks(perPageNum, intPageNo);
+			taskList = TaskService.instance.GetTasks(perPageNum, intPageNo);
 			for (TaskVO taskVO : taskList) {
 				Task task = taskVO.getTask();
 				task.setExecutestatus(ExcuteStatusEnum.resStatus(Integer.parseInt(task.getExecutestatus())));
 				task.setType(TaskTypeEnum.resStatus(Integer.parseInt(task.getType())));
 			}
-			totalPages = taskService.GetTasksCount();
+			totalPages = TaskService.instance.GetTasksCount();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -278,13 +273,12 @@ public class TaskController {
 		if (loginuser != null) {
 			return true;
 		}
-		TaskService taskService = new TaskService();
 		String usercode = request.getParameter("usercode");
 		String password = request.getParameter("password");
 		if (StringUtils.isBlank(usercode) || StringUtils.isBlank(password)) {
 			return false;
 		}
-		User user = taskService.Login(usercode);
+		User user = TaskService.instance.Login(usercode);
 		if (user.getUserCode() != null && user.getPassword().equals(password)) {
 			session.setAttribute("taskuser", user);
 			return true;
