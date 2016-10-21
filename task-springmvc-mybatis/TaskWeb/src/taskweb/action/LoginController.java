@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -17,6 +19,9 @@ import model.User;
 
 @Controller
 public class LoginController {
+	
+	
+	protected final Log logger = LogFactory.getLog(getClass());
 
 	private LoginVO loginVO;
 
@@ -54,6 +59,9 @@ public class LoginController {
 		if (StringUtils.isBlank(usercode) || StringUtils.isBlank(password)) {
 			return "login";
 		}
+		logger.debug("usercode:"+usercode+";password:"+password);
+		logger.info("info:usercode:"+usercode+";password:"+password);
+		logger.error("error:usercode:"+usercode+";password:"+password);
 		User user = TaskService.instance.Login(usercode);
 		if (user.getUserCode() != null && user.getPassword().equals(password)) {
 			session.setAttribute("task_user", user);

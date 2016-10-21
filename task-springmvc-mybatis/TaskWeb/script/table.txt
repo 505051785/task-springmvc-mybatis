@@ -40,8 +40,8 @@ executor VARCHAR(50)  COMMENT  '任务执行者',
 executendtime datetime COMMENT  '任务结束日期',
 starttime datetime   COMMENT  '任务提出时点',
 endtime datetime COMMENT  '任务结束时点',
-executstaus char(1); COMMENt '执行状态',
-type char(1); COMMENt '任务类型'
+executstaus CHAR(1) COMMENT '执行状态',
+type CHAR(1) COMMENT '任务类型'
 )COMMENT    = '任务表';
 
 ---------------------------------------------------------------------------------

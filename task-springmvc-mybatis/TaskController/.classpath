@@ -6,7 +6,7 @@
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/TaskService"/>
 	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v7.0"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="E:/study/java/IDE/taskWS/TaskWeb/WebContent/WEB-INF/lib/commons-lang3-3.1.jar"/>
+	<classpathentry kind="lib" path="F:/study/dev/20160805/task-springmvc-mybatis/TaskWeb/WebContent/WEB-INF/lib/commons-lang3-3.3.2.jar"/>
 	<classpathentry kind="lib" path="/TaskWeb/WebContent/WEB-INF/lib/servlet-api.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

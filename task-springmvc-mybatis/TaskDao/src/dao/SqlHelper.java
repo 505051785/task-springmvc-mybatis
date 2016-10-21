@@ -126,7 +126,7 @@ public class SqlHelper {
 	public static Connection getConn() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/task", "root", "");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://192.168.145.6:3306/task", "root", "");
 			return conn;
 		} catch (Exception ex) {
 			ex.printStackTrace();

@@ -24,24 +24,21 @@ public class loginInterceptor implements HandlerInterceptor {
 	}
 
 	@Override
-	public void afterCompletion(HttpServletRequest arg0,
-			HttpServletResponse arg1, Object arg2, Exception arg3)
+	public void afterCompletion(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2, Exception arg3)
 			throws Exception {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void postHandle(HttpServletRequest arg0, HttpServletResponse arg1,
-			Object arg2, org.springframework.web.servlet.ModelAndView arg3)
-			throws Exception {
+	public void postHandle(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2,
+			org.springframework.web.servlet.ModelAndView arg3) throws Exception {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public boolean preHandle(HttpServletRequest request,
-			HttpServletResponse response, Object arg2) throws Exception {
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object arg2) throws Exception {
 		String requestUri = request.getRequestURI();
 		for (String url : excludedUrls) {
 			if (requestUri.endsWith(url)) {
@@ -70,11 +67,9 @@ public class loginInterceptor implements HandlerInterceptor {
 		if (user.getUserCode() != null && user.getPassword().equals(password)) {
 			session.setAttribute("task_user", user);
 			if (curPasswordCookie == null) {
-				Cookie userCodecookie = new Cookie("task_userCode",
-						user.getUserCode());
+				Cookie userCodecookie = new Cookie("task_userCode", user.getUserCode());
 				userCodecookie.setPath("/");
-				Cookie passwordcookie = new Cookie("task_password",
-						user.getPassword());
+				Cookie passwordcookie = new Cookie("task_password", user.getPassword());
 				passwordcookie.setPath("/");
 				response.addCookie(userCodecookie);
 				response.addCookie(passwordcookie);
